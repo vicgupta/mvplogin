@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server";
-import { stripe, PLANS, type PlanKey } from "@/lib/stripe";
+import { getStripe, PLANS, type PlanKey } from "@/lib/stripe";
 import pb, { authenticateAdmin } from "@/lib/pocketbase";
 
 export async function POST(request: Request) {
@@ -35,7 +35,7 @@ export async function POST(request: Request) {
     let customerId = profiles.stripe_customer_id;
 
     if (!customerId) {
-      const customer = await stripe.customers.create({
+      const customer = await getStripe().customers.create({
         email: user.email,
         metadata: { pb_user_id: userId },
       });
@@ -47,7 +47,7 @@ export async function POST(request: Request) {
 
     // Create Checkout Session
     const appUrl = process.env.NEXT_PUBLIC_APP_URL || "http://localhost:3000";
-    const session = await stripe.checkout.sessions.create({
+    const session = await getStripe().checkout.sessions.create({
       customer: customerId,
       mode: "subscription",
       line_items: [{ price: plan.priceId, quantity: 1 }],

@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server";
-import { resend, EMAIL_FROM } from "@/lib/resend";
+import { getResend, EMAIL_FROM } from "@/lib/resend";
 
 type EmailTemplate = "welcome" | "payment_receipt";
 
@@ -47,7 +47,7 @@ export async function POST(request: Request) {
 
     const { subject, html } = templateFn(data);
 
-    const result = await resend.emails.send({
+    const result = await getResend().emails.send({
       from: EMAIL_FROM,
       to,
       subject,

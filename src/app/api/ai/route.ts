@@ -1,4 +1,4 @@
-import { anthropic, AI_MODEL } from "@/lib/ai";
+import { getAnthropic, AI_MODEL } from "@/lib/ai";
 
 export async function POST(request: Request) {
   try {
@@ -11,7 +11,7 @@ export async function POST(request: Request) {
       return Response.json({ error: "Prompt is required" }, { status: 400 });
     }
 
-    const stream = anthropic.messages.stream({
+    const stream = getAnthropic().messages.stream({
       model: AI_MODEL,
       max_tokens: 1024,
       system: systemPrompt || "You are a helpful assistant.",
