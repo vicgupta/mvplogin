@@ -4,6 +4,7 @@ import { useState, useEffect } from "react";
 import Link from "next/link";
 import { useAuth } from "@/components/auth-provider";
 import { Button } from "@/components/ui/button";
+import { ThemeToggle } from "@/components/theme-toggle";
 
 export function Nav() {
   const { user } = useAuth();
@@ -26,6 +27,7 @@ export function Nav() {
           >
             Pricing
           </Link>
+          <ThemeToggle />
           {mounted && user ? (
             <Button asChild>
               <Link href="/dashboard">Dashboard</Link>
