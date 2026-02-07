@@ -4,6 +4,7 @@ import Link from "next/link";
 import { useAuth } from "@/components/auth-provider";
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
+import { ThemeToggle } from "@/components/theme-toggle";
 
 export default function DashboardLayout({
   children,
@@ -53,6 +54,7 @@ export default function DashboardLayout({
             <span className="text-sm text-muted-foreground">
               {user?.email}
             </span>
+            <ThemeToggle />
             <Button variant="ghost" size="sm" onClick={logout}>
               Log out
             </Button>

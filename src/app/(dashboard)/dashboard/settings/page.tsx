@@ -1,6 +1,8 @@
 "use client";
 
 import { useState, useEffect, type FormEvent } from "react";
+import { useTheme } from "next-themes";
+import { Sun, Moon, Monitor } from "lucide-react";
 import { useAuth } from "@/components/auth-provider";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -25,6 +27,7 @@ interface Profile {
 
 export default function SettingsPage() {
   const { user, pb } = useAuth();
+  const { theme, setTheme } = useTheme();
   const [name, setName] = useState(user?.name || "");
   const [saving, setSaving] = useState(false);
   const [message, setMessage] = useState("");
@@ -120,6 +123,37 @@ export default function SettingsPage() {
             </Button>
           </CardFooter>
         </form>
+      </Card>
+
+      <Separator />
+
+      <Card className="max-w-lg">
+        <CardHeader>
+          <CardTitle>Appearance</CardTitle>
+          <CardDescription>Choose your preferred theme</CardDescription>
+        </CardHeader>
+        <CardContent>
+          <div className="flex gap-3">
+            {([
+              { value: "light", label: "Light", icon: Sun },
+              { value: "dark", label: "Dark", icon: Moon },
+              { value: "system", label: "System", icon: Monitor },
+            ] as const).map(({ value, label, icon: Icon }) => (
+              <button
+                key={value}
+                onClick={() => setTheme(value)}
+                className={`flex flex-1 flex-col items-center gap-2 rounded-lg border p-4 transition-colors hover:bg-accent ${
+                  theme === value
+                    ? "border-primary bg-accent"
+                    : "border-border"
+                }`}
+              >
+                <Icon className="h-5 w-5" />
+                <span className="text-sm font-medium">{label}</span>
+              </button>
+            ))}
+          </div>
+        </CardContent>
       </Card>
 
       <Separator />
